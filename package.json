@@ -4,12 +4,16 @@
   "description": "Recipe app",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node backend/server.js",
+    "server": "nodemon backend/server.js"
   },
   "author": "Levon Rose",
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.3",
     "express-async-handler": "^1.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
   }
 }
