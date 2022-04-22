@@ -4,7 +4,7 @@ const fs = require("fs");
 // @desc    Get recipes
 // @route   GET /
 // @access  Private
-const getRecipes = asyncHandler(async (req, res, next) => {
+const getRecipes = (req, res, next) => {
     let recipe;
 
     try {
@@ -14,10 +14,9 @@ const getRecipes = asyncHandler(async (req, res, next) => {
         console.log(err)
         return
       }
-      console.log(recipe)
 
   res.json(recipe);
-});
+};
 
 module.exports = {
   getRecipes,
