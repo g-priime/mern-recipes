@@ -4,6 +4,6 @@ const {
   getRecipes,
 } = require("../controllers/recipeController");
 
-router.get("/", getRecipes);
+router.get("/recipes", getRecipes);
 
 module.exports = router;
