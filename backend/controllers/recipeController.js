@@ -4,7 +4,7 @@ const filePath = "./backend/data.json";
 // @desc    Get recipes
 // @route   GET /recipes
 // @access  Private
-const getRecipes = (req, res, next) => {
+const getRecipes = (req, res) => {
   let jsonData;
   let recipeNames = [];
 
@@ -20,7 +20,7 @@ const getRecipes = (req, res, next) => {
     recipeNames.push(jsonData.recipes[i].name);
   }
 
-  const names = { recipeNames: recipeNames };
+  const names = { recipeNames };
 
   res.json(names);
 };
@@ -28,7 +28,7 @@ const getRecipes = (req, res, next) => {
 // @desc    Get recipe details
 // @route   GET /recipes/details/:name
 // @access  Private
-const getDetails = (req, res, next) => {
+const getDetails = (req, res) => {
   let jsonData;
   let ingredients;
   let numSteps;
@@ -46,7 +46,7 @@ const getDetails = (req, res, next) => {
     if (jsonData.recipes[i].name === req.params.name) {
       ingredients = jsonData.recipes[i].ingredients;
       numSteps = jsonData.recipes[i].instructions.length;
-      details = { details: { ingredients: ingredients, numSteps: numSteps } };
+      details = { details: { ingredients, numSteps } };
     }
   }
 
@@ -79,8 +79,8 @@ const postRecipes = (req, res) => {
 
   jsonData.recipes.push(recipe);
 
-  const jsonString = JSON.stringify(jsonData, null, 2);
-  fs.writeFile(filePath, jsonString, (err) => {
+  const updatedJsonString = JSON.stringify(jsonData, null, 2);
+  fs.writeFile(filePath, updatedJsonString, (err) => {
     if (err) {
       console.log("Error writing file", err);
     } else {
@@ -121,8 +121,8 @@ const updateRecipes = (req, res) => {
     return;
   }
 
-  const jsonString = JSON.stringify(jsonData, null, 2);
-  fs.writeFile(filePath, jsonString, (err) => {
+  const updatedJsonString = JSON.stringify(jsonData, null, 2);
+  fs.writeFile(filePath, updatedJsonString, (err) => {
     if (err) {
       console.log("Error writing file", err);
     } else {
