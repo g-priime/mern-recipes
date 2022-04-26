@@ -59,17 +59,7 @@ const getDetails = (req, res, next) => {
 // @route   POST /recipes
 // @access  Private
 const postRecipes = asyncHandler(async (req, res) => {
-  //const recipeString = JSON.stringify(req.body);
-  const { name } = req.body;
-  console.log(name);
-  res.json(req.params.name);
-
-  const recipe = {
-    name: "butteredBagel",
-    ingredients: ["1 bagel", "butter"],
-    instructions: ["cut the bagel", "spread butter on bagel"],
-  };
-
+  const recipe = req.body;
   let jsonData;
 
   try {
@@ -82,9 +72,9 @@ const postRecipes = asyncHandler(async (req, res) => {
 
   for (let i = 0; i < jsonData.recipes.length; i++) {
     if (jsonData.recipes[i].name === recipe.name) {
-      /*res.status(400).json({
+      res.status(400).json({
         error: "Recipe already exists",
-      });*/
+      });
       return;
     }
   }
@@ -103,25 +93,8 @@ const postRecipes = asyncHandler(async (req, res) => {
   res.status(201).json();
 });
 
-// @desc    Authenticate a user
-// @route   POST /login
-// @access  Public
-const loginUser = asyncHandler(async (req, res) => {
-  const { name } = req.body;
-
-  if (true) {
-    res.json({
-      name: name
-    });
-  } else {
-    res.status(400);
-    throw new Error("Invalid credentials");
-  }
-});
-
 module.exports = {
   getRecipes,
   getDetails,
   postRecipes,
-  loginUser,
 };
