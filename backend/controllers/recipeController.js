@@ -11,9 +11,7 @@ const getRecipes = (req, res) => {
     recipeNames.push(jsonData.recipes[i].name);
   }
 
-  const names = { recipeNames };
-
-  res.json(names);
+  res.json({ recipeNames });
 };
 
 // @desc    Get recipe details
@@ -53,7 +51,6 @@ const postRecipes = (req, res) => {
   }
 
   jsonData.recipes.push(recipe);
-
   writeFile(jsonData);
 
   res.status(201).json();
@@ -65,8 +62,8 @@ const postRecipes = (req, res) => {
 const updateRecipes = (req, res) => {
   const recipe = req.body;
   let jsonData = readFile();
-
   let recipeFound = false;
+
   for (let i = 0; i < jsonData.recipes.length; i++) {
     if (jsonData.recipes[i].name === recipe.name) {
       jsonData.recipes[i] = recipe;
