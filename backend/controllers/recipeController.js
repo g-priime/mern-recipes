@@ -93,8 +93,51 @@ const postRecipes = asyncHandler(async (req, res) => {
   res.status(201).json();
 });
 
+// @desc    Update recipes
+// @route   PUT /recipes
+// @access  Private
+const updateRecipes = asyncHandler(async (req, res) => {
+  const recipe = req.body;
+  let jsonData;
+
+  try {
+    const jsonString = fs.readFileSync(filePath);
+    jsonData = JSON.parse(jsonString);
+  } catch (err) {
+    console.log(err);
+    return;
+  }
+
+  let recipeFound = false;
+  for (let i = 0; i < jsonData.recipes.length; i++) {
+    if (jsonData.recipes[i].name === recipe.name) {
+      jsonData.recipes[i] = recipe;
+      recipeFound = true;
+    }
+  }
+
+  if(!recipeFound) {
+    res.status(404).json({
+      error: "Recipe does not exist",
+    });
+    return;
+  }
+
+  const jsonString = JSON.stringify(jsonData);
+  fs.writeFile(filePath, jsonString, (err) => {
+    if (err) {
+      console.log("Error writing file", err);
+    } else {
+      console.log("Successfully wrote file");
+    }
+  });
+
+  res.status(204).json();
+});
+
 module.exports = {
   getRecipes,
   getDetails,
   postRecipes,
+  updateRecipes,
 };
