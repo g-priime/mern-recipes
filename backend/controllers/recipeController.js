@@ -1,8 +1,6 @@
 const fs = require("fs");
 const filePath = "./backend/data.json";
 
-const asyncHandler = require("express-async-handler");
-
 // @desc    Get recipes
 // @route   GET /recipes
 // @access  Private
@@ -58,7 +56,7 @@ const getDetails = (req, res, next) => {
 // @desc    Post recipes
 // @route   POST /recipes
 // @access  Private
-const postRecipes = asyncHandler(async (req, res) => {
+const postRecipes = (req, res) => {
   const recipe = req.body;
   let jsonData;
 
@@ -91,12 +89,12 @@ const postRecipes = asyncHandler(async (req, res) => {
   });
 
   res.status(201).json();
-});
+};
 
 // @desc    Update recipes
 // @route   PUT /recipes
 // @access  Private
-const updateRecipes = asyncHandler(async (req, res) => {
+const updateRecipes = (req, res) => {
   const recipe = req.body;
   let jsonData;
 
@@ -133,7 +131,7 @@ const updateRecipes = asyncHandler(async (req, res) => {
   });
 
   res.status(204).json();
-});
+};
 
 module.exports = {
   getRecipes,
