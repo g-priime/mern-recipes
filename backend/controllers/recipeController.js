@@ -1,20 +1,11 @@
-const fs = require("fs");
-const filePath = "./backend/data.json";
+const { readFile, writeFile } = require("../DAL/recipeAccess");
 
 // @desc    Get recipes
 // @route   GET /recipes
 // @access  Private
 const getRecipes = (req, res) => {
-  let jsonData;
+  let jsonData = readFile();
   let recipeNames = [];
-
-  try {
-    const jsonString = fs.readFileSync(filePath);
-    jsonData = JSON.parse(jsonString);
-  } catch (err) {
-    console.log(err);
-    return;
-  }
 
   for (let i = 0; i < jsonData.recipes.length; i++) {
     recipeNames.push(jsonData.recipes[i].name);
@@ -29,18 +20,10 @@ const getRecipes = (req, res) => {
 // @route   GET /recipes/details/:name
 // @access  Private
 const getDetails = (req, res) => {
-  let jsonData;
+  let jsonData = readFile();
   let ingredients;
   let numSteps;
   let details = {};
-
-  try {
-    const jsonString = fs.readFileSync(filePath);
-    jsonData = JSON.parse(jsonString);
-  } catch (err) {
-    console.log(err);
-    return;
-  }
 
   for (let i = 0; i < jsonData.recipes.length; i++) {
     if (jsonData.recipes[i].name === req.params.name) {
@@ -58,15 +41,7 @@ const getDetails = (req, res) => {
 // @access  Private
 const postRecipes = (req, res) => {
   const recipe = req.body;
-  let jsonData;
-
-  try {
-    const jsonString = fs.readFileSync(filePath);
-    jsonData = JSON.parse(jsonString);
-  } catch (err) {
-    console.log(err);
-    return;
-  }
+  let jsonData = readFile();
 
   for (let i = 0; i < jsonData.recipes.length; i++) {
     if (jsonData.recipes[i].name === recipe.name) {
@@ -79,14 +54,7 @@ const postRecipes = (req, res) => {
 
   jsonData.recipes.push(recipe);
 
-  const updatedJsonString = JSON.stringify(jsonData, null, 2);
-  fs.writeFile(filePath, updatedJsonString, (err) => {
-    if (err) {
-      console.log("Error writing file", err);
-    } else {
-      console.log("Successfully wrote file");
-    }
-  });
+  writeFile(jsonData);
 
   res.status(201).json();
 };
@@ -96,15 +64,7 @@ const postRecipes = (req, res) => {
 // @access  Private
 const updateRecipes = (req, res) => {
   const recipe = req.body;
-  let jsonData;
-
-  try {
-    const jsonString = fs.readFileSync(filePath);
-    jsonData = JSON.parse(jsonString);
-  } catch (err) {
-    console.log(err);
-    return;
-  }
+  let jsonData = readFile();
 
   let recipeFound = false;
   for (let i = 0; i < jsonData.recipes.length; i++) {
@@ -121,14 +81,7 @@ const updateRecipes = (req, res) => {
     return;
   }
 
-  const updatedJsonString = JSON.stringify(jsonData, null, 2);
-  fs.writeFile(filePath, updatedJsonString, (err) => {
-    if (err) {
-      console.log("Error writing file", err);
-    } else {
-      console.log("Successfully wrote file");
-    }
-  });
+  writeFile(jsonData);
 
   res.status(204).json();
 };
