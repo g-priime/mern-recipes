@@ -2,7 +2,11 @@
   "recipes": [
     {
       "name": "scrambledEggs",
-      "ingredients": ["1 tsp oil", "2 eggs", "salt"],
+      "ingredients": [
+        "1 tsp oil",
+        "2 eggs",
+        "salt"
+      ],
       "instructions": [
         "Beat eggs with salt",
         "Heat oil in pan",
@@ -41,6 +45,17 @@
         "Add milk, heat until 80 C",
         "Add tea leaves/tea bags, chai masala; mix and steep for 3-4 minutes",
         "Remove mixture from heat; strain and enjoy"
+      ]
+    },
+    {
+      "name": "butteredBagel",
+      "ingredients": [
+        "1 bagel",
+        "butter"
+      ],
+      "instructions": [
+        "cut the bagel",
+        "spread butter on bagel"
       ]
     }
   ]

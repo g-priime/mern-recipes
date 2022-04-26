@@ -81,7 +81,7 @@ const postRecipes = asyncHandler(async (req, res) => {
 
   jsonData.recipes.push(recipe);
 
-  const jsonString = JSON.stringify(jsonData);
+  const jsonString = JSON.stringify(jsonData, null, 2);
   fs.writeFile(filePath, jsonString, (err) => {
     if (err) {
       console.log("Error writing file", err);
@@ -123,7 +123,7 @@ const updateRecipes = asyncHandler(async (req, res) => {
     return;
   }
 
-  const jsonString = JSON.stringify(jsonData);
+  const jsonString = JSON.stringify(jsonData, null, 2);
   fs.writeFile(filePath, jsonString, (err) => {
     if (err) {
       console.log("Error writing file", err);
