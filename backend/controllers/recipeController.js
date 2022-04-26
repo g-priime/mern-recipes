@@ -4,7 +4,7 @@ const { readFile, writeFile } = require("../DAL/recipeAccess");
 // @route   GET /recipes
 // @access  Private
 const getRecipes = (req, res) => {
-  let jsonData = readFile();
+  let jsonData = readFile(req, res);
   let recipeNames = [];
 
   for (let i = 0; i < jsonData.recipes.length; i++) {

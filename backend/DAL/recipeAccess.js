@@ -7,20 +7,17 @@ const readFile = () => {
     return JSON.parse(jsonString);
   } catch (err) {
     console.log(err);
-    return;
   }
 };
 
 const writeFile = (jsonData) => {
-    const updatedJsonString = JSON.stringify(jsonData, null, 2);
-    fs.writeFile(filePath, updatedJsonString, (err) => {
-      if (err) {
-        console.log("Error writing file", err);
-      } else {
-        console.log("Successfully wrote file");
-      }
-    });
-  }
+  const updatedJsonString = JSON.stringify(jsonData, null, 2);
+  fs.writeFile(filePath, updatedJsonString, (err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+};
 
 module.exports = {
   readFile,
