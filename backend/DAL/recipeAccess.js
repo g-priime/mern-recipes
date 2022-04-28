@@ -19,7 +19,17 @@ const writeFile = (jsonData) => {
   });
 };
 
+const checkForRecipe = (name, jsonData) => {
+  for (let i = 0; i < jsonData.recipes.length; i++) {
+    if (jsonData.recipes[i].name === name) {
+      return i;
+    }
+  }
+  return -1;
+};
+
 module.exports = {
   readFile,
   writeFile,
+  checkForRecipe,
 };

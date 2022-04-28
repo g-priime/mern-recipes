@@ -1,4 +1,4 @@
-const { readFile, writeFile } = require("../DAL/recipeAccess");
+const { readFile, writeFile, checkForRecipe } = require("../DAL/recipeAccess");
 
 // @desc    Get recipes
 // @route   GET /recipes
@@ -22,13 +22,12 @@ const getDetails = (req, res) => {
   let ingredients;
   let numSteps;
   let details = {};
+  const i = checkForRecipe(req.params.name, jsonData);
 
-  for (let i = 0; i < jsonData.recipes.length; i++) {
-    if (jsonData.recipes[i].name === req.params.name) {
-      ingredients = jsonData.recipes[i].ingredients;
-      numSteps = jsonData.recipes[i].instructions.length;
-      details = { details: { ingredients, numSteps } };
-    }
+  if (i >= 0) {
+    ingredients = jsonData.recipes[i].ingredients;
+    numSteps = jsonData.recipes[i].instructions.length;
+    details = { details: { ingredients, numSteps } };
   }
 
   res.json(details);
@@ -40,14 +39,13 @@ const getDetails = (req, res) => {
 const postRecipes = (req, res) => {
   const recipe = req.body;
   let jsonData = readFile();
+  const i = checkForRecipe(recipe.name, jsonData);
 
-  for (let i = 0; i < jsonData.recipes.length; i++) {
-    if (jsonData.recipes[i].name === recipe.name) {
-      res.status(400).json({
-        error: "Recipe already exists",
-      });
-      return;
-    }
+  if (i >= 0) {
+    res.status(400).json({
+      error: "Recipe already exists",
+    });
+    return;
   }
 
   jsonData.recipes.push(recipe);
@@ -62,16 +60,11 @@ const postRecipes = (req, res) => {
 const updateRecipes = (req, res) => {
   const recipe = req.body;
   let jsonData = readFile();
-  let recipeFound = false;
+  const i = checkForRecipe(recipe.name, jsonData);
 
-  for (let i = 0; i < jsonData.recipes.length; i++) {
-    if (jsonData.recipes[i].name === recipe.name) {
-      jsonData.recipes[i] = recipe;
-      recipeFound = true;
-    }
-  }
-
-  if(!recipeFound) {
+  if (i >= 0) {
+    jsonData.recipes[i] = recipe;
+  } else {
     res.status(404).json({
       error: "Recipe does not exist",
     });
